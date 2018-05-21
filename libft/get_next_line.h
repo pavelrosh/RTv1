@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec_op.h                                           :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: proshchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/15 17:23:42 by proshchy          #+#    #+#             */
-/*   Updated: 2018/05/15 17:23:44 by proshchy         ###   ########.fr       */
+/*   Created: 2017/12/18 18:31:43 by proshchy          #+#    #+#             */
+/*   Updated: 2017/12/18 18:31:46 by proshchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VEC_OP_H
-# define VEC_OP_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-# include <math.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include "libft.h"
+# define BUFF_SIZE 9999
+# define FD_AMOUNT 1024
 
-typedef struct 	s_vec
-{
-	double 		x;
-	double 		y;
-	double 		z;
-}				t_vec;
-
-t_vec			vec_sum(t_vec v1, t_vec v2);
-double			vec_dot(t_vec v1, t_vec v2);
-double			vec_len(t_vec v1);
-t_vec			vec_scale(t_vec v1, double t);
-t_vec			vec_norm(t_vec v1);
-t_vec			vec_sub(t_vec v1, t_vec v2);
+int		get_next_line(const int fd, char **line);
 #endif

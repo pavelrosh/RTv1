@@ -11,14 +11,15 @@
 # **************************************************************************** #
 
 NAME = rtv1
-SRC = main.c
+SRC = main.c parse.c
 LIBS = libft/libft.a vec_op/veclib.a
 HEADER = rtv1.h
+FLAGS = -F /Library/Frameworks/ -framework SDL2
 
 all: $(NAME)
 
 $(NAME): lib veclib
-	gcc $(SRC) $(LIBS) -F /Library/Frameworks/ -framework SDL2 -o $(NAME)
+	gcc $(SRC) $(LIBS) $(FLAGS) -o $(NAME)
 
 clean:
 	rm -rf *.o
