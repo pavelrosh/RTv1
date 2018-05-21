@@ -17,6 +17,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <pthread.h>
+// # include <math.h>
 
 # include "libft/libft.h"
 # include "vec_op/vec_op.h"
@@ -25,6 +26,8 @@
 
 # define DWIDTH 800
 # define DHEIGHT 800
+// # define ABS(x)		(x) > 0 ? (x) : -(x)
+// # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
 
 typedef struct 		s_object
 {

@@ -30,8 +30,15 @@ void	ft_error(char *str)
 	exit (1);
 }
 
-void	get_dir(double x, double y, t_ray *ray)
+void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl)
 {
+	// t_vec dir;
+
+	// dir = vec_sub(sdl->obj.pos, ray->orig);
+	// dir = vec_norm(dir);
+	// ray->dir.x = dir.x;
+	// ray->dir.y = dir.y;
+	// ray->dir.z = dir.z;
 	// printf("%f %f\n", x, y);
 	ray->dir.x = x * (1 / (double)DWIDTH);
 	ray->dir.y = y * (1 / (double)DHEIGHT);
@@ -67,6 +74,7 @@ double	sphere_intersect(t_ray *ray, t_sdl *sdl)
 	c = vec_dot(oc, oc) - (sdl->obj.r * sdl->obj.r);
 	// printf("%f %f %f\n", a, b, c);
 	d = b * b - 4 * a * c;
+	// d = DROUND(d);
 	if (d < 0)
 		return (-1);
 	// printf("%f %f %f\n", a, b, d);
@@ -78,8 +86,8 @@ int 	main(int argc, char **argv)
 	t_sdl 		sdl;
 	t_ray		ray;
 	SDL_Event 	event;
-	double 		x;
-	double 		y;
+	int 		x;
+	int 		y;
 	double 		t;
 	double		n_x;
 	double		n_y;
@@ -89,20 +97,25 @@ int 	main(int argc, char **argv)
 		ft_error("Wrong arguments");
 	ft_parse(argv[1], &sdl);
 	//initialize start x position and ray origin pos
-	x = -((double)DWIDTH / 2);
+	// x = -((double)DWIDTH / 2);
+	x = 0;
 	ray.orig.x = sdl.cam.pos.x;
 	ray.orig.y = sdl.cam.pos.y;
 	ray.orig.z = sdl.cam.pos.z;
 	t = -1;
-	while (x <= (double)DWIDTH / 2)
+	while (x <= DWIDTH)
 	{
-		y = -((double)DHEIGHT / 2);
-		// n_x = (double)DWIDTH / 2 + x;
-		while (y <= (double)DHEIGHT / 2)
+		// y = -((double)DHEIGHT / 2);
+		y = 0;
+		n_x = (x + 0.5) / (double)DWIDTH;
+		n_x = 2 * n_x - 1;
+		while (y <= DHEIGHT)
 		{
-			// n_y = (double)DHEIGHT / 2 - y;
-			// get_dir(n_x, n_y, &ray);
-			get_dir(x, y, &ray);
+			n_y = (y + 0.5) / (double)DHEIGHT;
+			n_y = 1 - (2 * n_y);
+			get_dir(n_x, n_y, &ray, &sdl);
+			// get_dir(x, y, &ray);
+			// printf("%f %f\n", n_x, n_y);
 			t = sphere_intersect(&ray, &sdl);
 			if (t > 1)
 			{
