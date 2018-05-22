@@ -41,7 +41,11 @@ void	set_color(t_sdl *sdl, int i, int x, int y)
 {
 	double p;
 
-	p = sdl->light.new_inten;
+	// if (sdl->light.new_inten > 1)
+		// p = 1;
+	p = sdl->light.new_inten > 1 ? 1 : sdl->light.new_inten;
+	// p = sdl->light.new_inten;
+	// printf("%f\n", p);
 	// p = 1;
 	if (i > -1)
 	{

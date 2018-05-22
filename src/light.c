@@ -15,11 +15,13 @@
 void	get_intensity(t_light *light)
 {
 	double	n_dot_l;
+	double 	ambient;
 	t_vec	l;
 
 	light->new_inten = 0.0;
+	ambient = light->ambient;
 	l = vec_sub(light->pos, light->p);
 	n_dot_l = vec_dot(light->n, light->n);
 	if (n_dot_l > 0)
-		light->new_inten += light->inten * n_dot_l / (vec_len(light->n) * vec_len(l));
+		light->new_inten += ambient + light->inten * n_dot_l / (vec_len(light->n) * vec_len(l));
 }

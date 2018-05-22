@@ -39,6 +39,8 @@ void	split_parse(char **str, t_sdl *sdl)
 		sdl->light.pos.z = (double)(atoi(str[3]));
 		sdl->light.inten = (double)(atoi(str[4])) / 100;
 	}
+	else if (ft_strequ(str[0], "ambient:"))
+		sdl->light.ambient = (double)(atoi(str[1])) / 100;
 }
 
 void	ft_parse(char *arg, t_sdl *sdl, t_ray *ray)

@@ -36,6 +36,7 @@ typedef	struct 		s_light
 	t_vec			p;
 	t_vec			n;
 	double			inten;
+	double			ambient;
 	double			new_inten;
 }					t_light;
 
