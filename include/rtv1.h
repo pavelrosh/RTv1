@@ -17,15 +17,16 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <pthread.h>
-// # include <math.h>
 
-# include "libft/libft.h"
-# include "vec_op/vec_op.h"
+# include "../libft/libft.h"
+# include "../vec_op/vec_op.h"
 
 # include <SDL2/SDL.h>
 
 # define DWIDTH 800
 # define DHEIGHT 800
+# define FOV 60.0
+# define SPHERE 1
 // # define ABS(x)		(x) > 0 ? (x) : -(x)
 // # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
 
@@ -33,6 +34,8 @@ typedef struct 		s_object
 {
 	t_vec			pos;
 	double			r;
+	double 			t;
+	int				name;
 }					t_object;
 
 typedef	struct 		s_cam
@@ -51,16 +54,15 @@ typedef struct 		s_sdl
 	SDL_Window 		*wind;
 	SDL_Renderer 	*rend;
 	t_cam			cam;
-	t_object		obj;
+	t_object		*obj;
+	int 			obj_num;
 }					t_sdl;
 
-void				ft_parse(char *arg, t_sdl *sdl);
+void				ft_parse(char *arg, t_sdl *sdl, t_ray *ray);
 void				ft_error(char *str);
+void				ray_trace_init(t_sdl *sdl, t_ray *ray);
 
 #endif
-
-
-
 
 
 

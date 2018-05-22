@@ -11,9 +11,10 @@
 # **************************************************************************** #
 
 NAME = rtv1
-SRC = main.c parse.c
+# SRC = main.c parse.c ray_trace.c
+SRC = src/*.c
 LIBS = libft/libft.a vec_op/veclib.a
-HEADER = rtv1.h
+HEADER = include/rtv1.h
 FLAGS = -F /Library/Frameworks/ -framework SDL2
 
 all: $(NAME)
