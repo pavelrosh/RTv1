@@ -30,9 +30,24 @@
 // # define ABS(x)		(x) > 0 ? (x) : -(x)
 // # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
 
+typedef	struct 		s_light
+{
+	t_vec			pos;
+	t_vec			p;
+	t_vec			n;
+	double			inten;
+	double			new_inten;
+}					t_light;
+
+typedef struct 		s_rgb
+{
+	unsigned char  	rgb[3];
+}					t_rgb;
+
 typedef struct 		s_object
 {
 	t_vec			pos;
+	t_rgb			col;
 	double			r;
 	double 			t;
 	int				name;
@@ -56,11 +71,16 @@ typedef struct 		s_sdl
 	t_cam			cam;
 	t_object		*obj;
 	int 			obj_num;
+	t_light			light;
+
 }					t_sdl;
 
 void				ft_parse(char *arg, t_sdl *sdl, t_ray *ray);
 void				ft_error(char *str);
 void				ray_trace_init(t_sdl *sdl, t_ray *ray);
+double				sphere_intersect(t_ray *ray, t_object *obj);
+double				get_t(double a, double b, double d);
+void				get_intensity(t_light *light);
 
 #endif
 

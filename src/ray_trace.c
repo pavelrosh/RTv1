@@ -19,6 +19,8 @@ void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl)
 	ray->dir.y = y * (1 / (double)DHEIGHT);
 	ray->dir.z = 1.0;
 	// printf("%f %f %f\n", ray->dir.x, ray->dir.y, ray->dir.z);
+	// ray->dir = vec_norm(ray->dir);
+	// printf("%f %f %f\n", ray->dir.x, ray->dir.y, ray->dir.z);
 }
 
 double	get_t(double a, double b, double d)
@@ -35,65 +37,62 @@ double	get_t(double a, double b, double d)
 	return (-1);
 }
 
-double	sphere_intersect(t_ray *ray, t_object *obj)
+void	set_color(t_sdl *sdl, int i, int x, int y)
 {
-	double a;
-	double b;
-	double c;
-	double d;
-	t_vec oc;
+	double p;
 
-	// printf("%f %f %f %f\n", obj->pos.x, obj->pos.y, obj->pos.z, obj->r);
-	oc = vec_sub(ray->orig, obj->pos);
-	a = vec_dot(ray->dir, ray->dir);
-	b = 2 * vec_dot(oc, ray->dir);
-	c = vec_dot(oc, oc) - (obj->r * obj->r);
-	// printf("%f %f %f\n", a, b, c);
-	d = b * b - 4 * a * c;
-	// d = DROUND(d);
-	if (d < 0)
-		return (-1);
-	// printf("%f %f %f\n", a, b, d);
-	return (get_t(a, b, d));
+	p = sdl->light.new_inten;
+	// p = 1;
+	if (i > -1)
+	{
+		SDL_SetRenderDrawColor(sdl->rend, sdl->obj[i].col.rgb[0] * p, 
+			sdl->obj[i].col.rgb[1] * p, sdl->obj[i].col.rgb[2] * p, 255);
+		SDL_RenderDrawPoint(sdl->rend, x, y);
+	}
+	else
+	{
+		SDL_SetRenderDrawColor(sdl->rend, 255, 255, 255, 255);
+		SDL_RenderDrawPoint(sdl->rend, x, y);
+	}
 }
 
-double	intersection_check(t_ray *ray, t_sdl *sdl)
+void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 {
-	double	t;
 	int 	i;
+	int 	clos_obj;
+	double	min_t;
 
 	i = 0;
-	t = -1;
+	clos_obj = -1;
+	min_t = INFINITY;
 	// printf("%f %f %f %f\n", sdl->obj[0].pos.x, sdl->obj[0].pos.y, sdl->obj[0].pos.z, sdl->obj[0].r);
 	while (i < sdl->obj_num)
 	{
 		if (sdl->obj[i].name == SPHERE)
-			t = sphere_intersect(ray, &sdl->obj[i]);
-		if (t > 1)
-			return (t);
-		// else if (sdl->obj[i].name == PLANE)
-			// t = sphere_intersect(ray, sdl);
+		{
+			sdl->obj[i].t = sphere_intersect(ray, &sdl->obj[i]);
+			if (sdl->obj[i].t > 0 && sdl->obj[i].t < min_t)
+			{
+				min_t = sdl->obj[i].t;
+				clos_obj = i;
+			}
+		}
 		i++;
 	}
-	// i = 0;
-	// while (i < sdl->obj_num && sdl->obj_num > 1)
-	// {
-	// 	if (sdl->obj[i].t < sdl.obj[i + 1].t)
-	// 		t = sdl->obj[i].t;
-	// 	i++;
-	// }
-	return (t);
+	sdl->light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->obj[clos_obj].t));
+	sdl->light.n = vec_sub(sdl->light.p, sdl->obj[clos_obj].pos);
+	sdl->light.n = vec_norm(sdl->light.n);
+	get_intensity(&sdl->light);
+	set_color(sdl, clos_obj, x, y);
 }
 void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 {
 	int 		x;
 	int 		y;
-	double 		t;
 	double		n_x;
 	double		n_y;
 
 	x = 0;
-	y = -1;
 	while (x <= DWIDTH)
 	{
 		y = 0;
@@ -105,17 +104,7 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 			n_y = 1 - (2 * n_y);
 			get_dir(n_x, n_y, ray, sdl);
 			// printf("%f %f\n", n_x, n_y);
-			t = intersection_check(ray, sdl);
-			if (t > 1)
-			{
-				SDL_SetRenderDrawColor(sdl->rend, 255, 0, 0, 255);
-				SDL_RenderDrawPoint(sdl->rend, x, y);
-			}
-			else
-			{
-				SDL_SetRenderDrawColor(sdl->rend, 255, 255, 255, 255);
-				SDL_RenderDrawPoint(sdl->rend, x, y);
-			}
+			intersection_check(ray, sdl, x, y);
 			y++;
 		}
 		x++;

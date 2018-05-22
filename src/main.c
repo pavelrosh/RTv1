@@ -37,7 +37,7 @@ int 	main(int argc, char **argv)
 	SDL_Event 	event;
 
 	init_sdl(&sdl);
-	sdl.obj = malloc(sizeof(t_object) * 3); //hardcode!
+	sdl.obj = malloc(sizeof(t_object) * 5); //hardcode!
 	if (argc != 2 || !argv[1])
 		ft_error("Wrong arguments");
 	ft_parse(argv[1], &sdl, &ray);
