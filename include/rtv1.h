@@ -27,6 +27,7 @@
 # define DHEIGHT 800
 # define FOV 60.0
 # define SPHERE 1
+# define PLANE 2
 // # define ABS(x)		(x) > 0 ? (x) : -(x)
 // # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
 
@@ -49,9 +50,11 @@ typedef struct 		s_object
 {
 	t_vec			pos;
 	t_rgb			col;
+	t_vec			v;
 	double			r;
 	double 			t;
 	int				name;
+	double			specular;
 }					t_object;
 
 typedef	struct 		s_cam
@@ -81,7 +84,7 @@ void				ft_error(char *str);
 void				ray_trace_init(t_sdl *sdl, t_ray *ray);
 double				sphere_intersect(t_ray *ray, t_object *obj);
 double				get_t(double a, double b, double d);
-void				get_intensity(t_light *light);
+void				get_intensity(t_light *light, t_vec *v, double s);
 
 #endif
 

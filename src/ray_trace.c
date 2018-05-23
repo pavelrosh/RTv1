@@ -41,12 +41,7 @@ void	set_color(t_sdl *sdl, int i, int x, int y)
 {
 	double p;
 
-	// if (sdl->light.new_inten > 1)
-		// p = 1;
 	p = sdl->light.new_inten > 1 ? 1 : sdl->light.new_inten;
-	// p = sdl->light.new_inten;
-	// printf("%f\n", p);
-	// p = 1;
 	if (i > -1)
 	{
 		SDL_SetRenderDrawColor(sdl->rend, sdl->obj[i].col.rgb[0] * p, 
@@ -55,7 +50,7 @@ void	set_color(t_sdl *sdl, int i, int x, int y)
 	}
 	else
 	{
-		SDL_SetRenderDrawColor(sdl->rend, 255, 255, 255, 255);
+		SDL_SetRenderDrawColor(sdl->rend, 0, 0, 0, 255);
 		SDL_RenderDrawPoint(sdl->rend, x, y);
 	}
 }
@@ -81,14 +76,28 @@ void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 				clos_obj = i;
 			}
 		}
+		// else if(sdl->obj[i].name == PLANE)
+		// {
+		// 	sdl->obj[i].t = plane_intersect(ray, &sdl->obj[i]);
+		// 	if (sdl->obj[i].t > 0 && sdl->obj[i].t < min_t)
+		// 	{
+		// 		min_t = sdl->obj[i].t;
+		// 		clos_obj = i;
+		// 	}
+		// }
 		i++;
 	}
 	sdl->light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->obj[clos_obj].t));
 	sdl->light.n = vec_sub(sdl->light.p, sdl->obj[clos_obj].pos);
 	sdl->light.n = vec_norm(sdl->light.n);
-	get_intensity(&sdl->light);
+	//SHINE data
+	// printf("%f %f %f\n", ray->dir.x, ray->dir.y, ray->dir.z);
+	ray->dir = vec_scale(ray->dir, -1);
+	// printf("%f %f %f\n", ray->dir.x, ray->dir.y, ray->dir.z);
+	get_intensity(&sdl->light, &ray->dir, sdl->obj[clos_obj].specular); // ray->dir, obj->specular;
 	set_color(sdl, clos_obj, x, y);
 }
+
 void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 {
 	int 		x;
