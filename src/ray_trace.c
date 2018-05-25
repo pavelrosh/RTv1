@@ -15,26 +15,12 @@
 void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl)
 {
 	// printf("%f %f\n", x, y);
-	ray->dir.x = x * (1 / (double)DWIDTH);
-	ray->dir.y = y * (1 / (double)DHEIGHT);
+	ray->dir.x = x * (V_W / (double)DWIDTH);
+	ray->dir.y = y * (V_H / (double)DHEIGHT);
 	ray->dir.z = 1.0;
 	// printf("%f %f %f\n", ray->dir.x, ray->dir.y, ray->dir.z);
 	// ray->dir = vec_norm(ray->dir);
 	// printf("%f %f %f\n", ray->dir.x, ray->dir.y, ray->dir.z);
-}
-
-double	get_t(double a, double b, double d)
-{
-	double t1;
-	double t2;
-
-	t1 = (-b - sqrt(d)) / (2 * a);
-	t2 = (-b + sqrt(d)) / (2 * a);
-	if ((t1 <= t2 && t1 >= 0) || (t1 >= 0 && t2 < 0))
-		return (t1);
-	else if ((t2 <= t1 && t2 >= 0) || (t1 < 0 && t2 >= 0))
-		return (t2);
-	return (-1);
 }
 
 void	set_color(t_sdl *sdl, int i, int x, int y)
@@ -69,32 +55,23 @@ void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 	{
 		if (sdl->obj[i].name == SPHERE)
 		{
-			sdl->obj[i].t = sphere_intersect(ray, &sdl->obj[i]);
+			sdl->obj[i].t = sphere_intersect(ray->orig, ray->dir, &sdl->obj[i]);
 			if (sdl->obj[i].t > 0 && sdl->obj[i].t < min_t)
 			{
 				min_t = sdl->obj[i].t;
 				clos_obj = i;
 			}
 		}
-		// else if(sdl->obj[i].name == PLANE)
-		// {
-		// 	sdl->obj[i].t = plane_intersect(ray, &sdl->obj[i]);
-		// 	if (sdl->obj[i].t > 0 && sdl->obj[i].t < min_t)
-		// 	{
-		// 		min_t = sdl->obj[i].t;
-		// 		clos_obj = i;
-		// 	}
-		// }
 		i++;
 	}
-	sdl->light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->obj[clos_obj].t));
-	sdl->light.n = vec_sub(sdl->light.p, sdl->obj[clos_obj].pos);
-	sdl->light.n = vec_norm(sdl->light.n);
-	//SHINE data
-	// printf("%f %f %f\n", ray->dir.x, ray->dir.y, ray->dir.z);
-	ray->dir = vec_scale(ray->dir, -1);
-	// printf("%f %f %f\n", ray->dir.x, ray->dir.y, ray->dir.z);
-	get_intensity(&sdl->light, &ray->dir, sdl->obj[clos_obj].specular); // ray->dir, obj->specular;
+	if (clos_obj > -1)
+	{
+		sdl->light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->obj[clos_obj].t));
+		sdl->light.n = vec_sub(sdl->light.p, sdl->obj[clos_obj].pos);
+		sdl->light.n = vec_norm(sdl->light.n);
+		get_intensity(sdl, &sdl->light, vec_scale(ray->dir, -1), sdl->obj[clos_obj].specular);
+	}
+	// printf("%f %f %f\n", sdl->light.p.x, sdl->light.p.y, sdl->light.p.z);
 	set_color(sdl, clos_obj, x, y);
 }
 

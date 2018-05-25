@@ -1,4 +1,4 @@
-cam: 0 0 -1000
-light: 0 5 900 60
-sphere: 0 0 900 1 0 0 255 100
-ambient: 20
+cam: 0 0 -25
+light: 0 5 5 70
+sphere: 0 0 5 1 0 0 255 1
+ambient: 30

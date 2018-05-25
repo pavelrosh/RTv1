@@ -25,6 +25,8 @@
 
 # define DWIDTH 800
 # define DHEIGHT 800
+# define V_W 40
+# define V_H 40
 # define FOV 60.0
 # define SPHERE 1
 # define PLANE 2
@@ -82,9 +84,9 @@ typedef struct 		s_sdl
 void				ft_parse(char *arg, t_sdl *sdl, t_ray *ray);
 void				ft_error(char *str);
 void				ray_trace_init(t_sdl *sdl, t_ray *ray);
-double				sphere_intersect(t_ray *ray, t_object *obj);
+double				sphere_intersect(t_vec o, t_vec dir, t_object *obj);
 double				get_t(double a, double b, double d);
-void				get_intensity(t_light *light, t_vec *v, double s);
+void				get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s);
 
 #endif
 
