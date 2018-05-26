@@ -73,7 +73,10 @@ int 	shadow_init(t_light *light, t_sdl *sdl)
 			t = sphere_intersect(light->p, dir, &sdl->obj[i]);
 			// printf("%f\n", t);
 			if (t > 0.00001 && t < max_t)
+			{
+				// printf("%f\n", t);
 				return (1);
+			}
 		}
 		i++;
 	}

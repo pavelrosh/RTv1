@@ -46,6 +46,9 @@ void	split_parse(char **str, t_sdl *sdl)
 		sdl->cam.pos.x = (double)(atoi(str[1]));
 		sdl->cam.pos.y = (double)(atoi(str[2]));
 		sdl->cam.pos.z = (double)(atoi(str[3]));
+		sdl->cam.rot.x = (double)(atoi(str[4]));
+		sdl->cam.rot.y = (double)(atoi(str[5]));
+		sdl->cam.rot.z = (double)(atoi(str[6]));
 	}
 	else if (ft_strequ(str[0], "sphere:"))
 		sphere_data(sdl, str);
@@ -84,7 +87,8 @@ void	ft_parse(char *arg, t_sdl *sdl, t_ray *ray)
 	ray->orig.x = sdl->cam.pos.x;
 	ray->orig.y = sdl->cam.pos.y;
 	ray->orig.z = sdl->cam.pos.z;
-	// printf("%f %f %f\n", sdl->cam.pos.x, sdl->cam.pos.y, sdl->cam.pos.z);
+	// printf("%f %f %f %f %f %f\n", sdl->cam.pos.x, sdl->cam.pos.y, sdl->cam.pos.z,
+		// sdl->cam.rot.x, sdl->cam.rot.y, sdl->cam.rot.z);
 	// printf("%f %f %f %u %u %u %f\n", sdl->obj[3].pos.x, sdl->obj[3].pos.y, 
 	// 	sdl->obj[3].pos.z, sdl->obj[3].col.rgb[0], 
 	// 	sdl->obj[3].col.rgb[1], sdl->obj[3].col.rgb[2], sdl->obj[3].specular);

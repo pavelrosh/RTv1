@@ -18,6 +18,7 @@ void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl)
 	ray->dir.x = x * (V_W / (double)DWIDTH);
 	ray->dir.y = y * (V_H / (double)DHEIGHT);
 	ray->dir.z = 1.0;
+	ray->dir = vec_rot(ray->dir, sdl->cam.rot);
 	// printf("%f %f %f\n", ray->dir.x, ray->dir.y, ray->dir.z);
 	// ray->dir = vec_norm(ray->dir);
 	// printf("%f %f %f\n", ray->dir.x, ray->dir.y, ray->dir.z);

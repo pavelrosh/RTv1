@@ -18,14 +18,22 @@ SRC = \
 	vec_norm.c\
 	vec_scale.c\
 	vec_sub.c\
-	vec_sum.c
+	vec_sum.c\
+	vec_rotx.c\
+	vec_roty.c\
+	vec_rotz.c\
+	vec_rot.c
 OBJ = \
 	vec_dot.o\
 	vec_len.o\
 	vec_norm.o\
 	vec_scale.o\
 	vec_sub.o\
-	vec_sum.o
+	vec_sum.o\
+	vec_rotx.o\
+	vec_roty.o\
+	vec_rotz.o\
+	vec_rot.o
 
 HEADER = vec_op.h
 

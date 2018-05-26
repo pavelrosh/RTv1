@@ -27,7 +27,7 @@
 # define DHEIGHT 800
 # define V_W 40
 # define V_H 40
-# define FOV 60.0
+// # define FOV 60.0
 # define SPHERE 1
 # define PLANE 2
 // # define ABS(x)		(x) > 0 ? (x) : -(x)
@@ -62,6 +62,7 @@ typedef struct 		s_object
 typedef	struct 		s_cam
 {
 	t_vec			pos;
+	t_vec			rot;
 }					t_cam;
 
 typedef	struct 		s_ray
