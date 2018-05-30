@@ -48,7 +48,7 @@ int 	main(int argc, char **argv)
 			if((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type &&
 				SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
 				exit(0);
-
+	free(sdl.obj);
 	return (0);
 }
 

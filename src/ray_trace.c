@@ -56,6 +56,8 @@ void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 			sphere(sdl, ray, i, &sdl->obj[i]);
 		else if (sdl->obj[i].name == PLANE)
 			plane(sdl, ray, i, &sdl->obj[i]);
+		else if (sdl->obj[i].name == CYLINDER)
+			cylinder(sdl, ray, i, &sdl->obj[i]);
 		i++;
 	}
 	if (sdl->clos_obj > -1)
@@ -64,6 +66,8 @@ void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 		if (sdl->obj[sdl->clos_obj].name == SPHERE)	
 			sdl->light.n = vec_norm(vec_sub(sdl->light.p, sdl->obj[sdl->clos_obj].pos));
 		else if (sdl->obj[sdl->clos_obj].name == PLANE)
+			sdl->light.n = sdl->obj[sdl->clos_obj].rot;
+		else if (sdl->obj[sdl->clos_obj].name == CYLINDER)
 			sdl->light.n = sdl->obj[sdl->clos_obj].rot;
 		get_intensity(sdl, &sdl->light, vec_scale(ray->dir, -1), sdl->obj[sdl->clos_obj].specular);
 	}

@@ -30,6 +30,7 @@
 // # define FOV 60.0
 # define SPHERE 1
 # define PLANE 2
+# define CYLINDER 3
 # define EPS 0.000001
 // # define ABS(x)		(x) > 0 ? (x) : -(x)
 // # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
@@ -51,9 +52,9 @@ typedef struct 		s_rgb
 
 typedef struct 		s_object
 {
-	t_vec			pos;
+	t_vec			pos; //start point of cylinder
 	t_rgb			col;
-	t_vec			rot; //plane normal
+	t_vec			rot; //plane normal, axis vector for cylinder
 	double			r;
 	double 			t;
 	int				name;
@@ -92,6 +93,7 @@ void				sphere(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 double				sphere_intersect(t_vec o, t_vec dir, t_object *obj);
 void				plane(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 double				plane_intersect(t_vec o, t_vec dir, t_object *obj);
+void				cylinder(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 
 #endif
 
