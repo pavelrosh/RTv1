@@ -1,4 +1,6 @@
-cam: 0 0 -25 1 1 1
-light: 0 5 5 70
-sphere: 0 0 5 1 0 0 255 1
-ambient: 30
+cam: 0 0 -25 0 0 0
+light: 0 5 15 70
+sphere: 0 0 15 1 0 0 255 1
+plane: 1 1 13 1 0 0 0 255 255 1
+/plane: 1 0 20 0 0 1 255 0 255 1
+ambient: 20

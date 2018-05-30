@@ -47,6 +47,28 @@ double	sphere_intersect(t_vec o, t_vec dir, t_object *obj)
 	return (get_t(a, b, d));
 }
 
+void	sphere(t_sdl *sdl, t_ray *ray, int i, t_object *obj)
+{
+	// double t;
+
+	obj->t = sphere_intersect(ray->orig, ray->dir, obj);
+	// printf("%f %f %f\n", sdl->obj[i].pos.x, sdl->obj[i].pos.y, sdl->obj[i].pos.z);
+	if (obj->t > 0 && obj->t < sdl->min_t)
+	{
+		sdl->min_t = obj->t;
+		sdl->clos_obj = i;
+	}
+	// printf("%d %f\n",sdl->clos_obj, sdl->min_t);
+}
+
+
+
+
+
+
+
+
+
 
 
 

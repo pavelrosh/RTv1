@@ -30,6 +30,7 @@
 // # define FOV 60.0
 # define SPHERE 1
 # define PLANE 2
+# define EPS 0.000001
 // # define ABS(x)		(x) > 0 ? (x) : -(x)
 // # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
 
@@ -45,14 +46,14 @@ typedef	struct 		s_light
 
 typedef struct 		s_rgb
 {
-	unsigned char  	rgb[3];
+	unsigned char 	rgb[3];
 }					t_rgb;
 
 typedef struct 		s_object
 {
 	t_vec			pos;
 	t_rgb			col;
-	t_vec			v;
+	t_vec			rot; //plane normal
 	double			r;
 	double 			t;
 	int				name;
@@ -78,16 +79,19 @@ typedef struct 		s_sdl
 	t_cam			cam;
 	t_object		*obj;
 	int 			obj_num;
+	int 			clos_obj;
+	double			min_t;
 	t_light			light;
-
 }					t_sdl;
 
 void				ft_parse(char *arg, t_sdl *sdl, t_ray *ray);
 void				ft_error(char *str);
 void				ray_trace_init(t_sdl *sdl, t_ray *ray);
-double				sphere_intersect(t_vec o, t_vec dir, t_object *obj);
-double				get_t(double a, double b, double d);
 void				get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s);
+void				sphere(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
+double				sphere_intersect(t_vec o, t_vec dir, t_object *obj);
+void				plane(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
+double				plane_intersect(t_vec o, t_vec dir, t_object *obj);
 
 #endif
 

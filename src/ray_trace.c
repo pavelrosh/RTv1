@@ -45,35 +45,30 @@ void	set_color(t_sdl *sdl, int i, int x, int y)
 void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 {
 	int 	i;
-	int 	clos_obj;
-	double	min_t;
 
 	i = 0;
-	clos_obj = -1;
-	min_t = INFINITY;
+	sdl->clos_obj = -1;
+	sdl->min_t = INFINITY;
 	// printf("%f %f %f %f\n", sdl->obj[0].pos.x, sdl->obj[0].pos.y, sdl->obj[0].pos.z, sdl->obj[0].r);
 	while (i < sdl->obj_num)
 	{
 		if (sdl->obj[i].name == SPHERE)
-		{
-			sdl->obj[i].t = sphere_intersect(ray->orig, ray->dir, &sdl->obj[i]);
-			if (sdl->obj[i].t > 0 && sdl->obj[i].t < min_t)
-			{
-				min_t = sdl->obj[i].t;
-				clos_obj = i;
-			}
-		}
+			sphere(sdl, ray, i, &sdl->obj[i]);
+		else if (sdl->obj[i].name == PLANE)
+			plane(sdl, ray, i, &sdl->obj[i]);
 		i++;
 	}
-	if (clos_obj > -1)
+	if (sdl->clos_obj > -1)
 	{
-		sdl->light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->obj[clos_obj].t));
-		sdl->light.n = vec_sub(sdl->light.p, sdl->obj[clos_obj].pos);
-		sdl->light.n = vec_norm(sdl->light.n);
-		get_intensity(sdl, &sdl->light, vec_scale(ray->dir, -1), sdl->obj[clos_obj].specular);
+		sdl->light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->obj[sdl->clos_obj].t));
+		if (sdl->obj[sdl->clos_obj].name == SPHERE)	
+			sdl->light.n = vec_norm(vec_sub(sdl->light.p, sdl->obj[sdl->clos_obj].pos));
+		else if (sdl->obj[sdl->clos_obj].name == PLANE)
+			sdl->light.n = sdl->obj[sdl->clos_obj].rot;
+		get_intensity(sdl, &sdl->light, vec_scale(ray->dir, -1), sdl->obj[sdl->clos_obj].specular);
 	}
 	// printf("%f %f %f\n", sdl->light.p.x, sdl->light.p.y, sdl->light.p.z);
-	set_color(sdl, clos_obj, x, y);
+	set_color(sdl, sdl->clos_obj, x, y);
 }
 
 void	ray_trace_init(t_sdl *sdl, t_ray *ray)

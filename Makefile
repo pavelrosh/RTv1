@@ -15,7 +15,7 @@ NAME = rtv1
 SRC = src/*.c
 LIBS = libft/libft.a vec_op/veclib.a
 HEADER = include/rtv1.h
-FLAGS = -F /Library/Frameworks/ -framework SDL2
+FLAGS = -F /Library/Frameworks/ -framework SDL2 -Wall -Wextra -Werror
 
 all: $(NAME)
 
