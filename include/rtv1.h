@@ -31,7 +31,9 @@
 # define SPHERE 1
 # define PLANE 2
 # define CYLINDER 3
+# define CONE 4
 # define EPS 0.000001
+# define OBJ sdl->obj[sdl->clos_obj]
 // # define ABS(x)		(x) > 0 ? (x) : -(x)
 // # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
 
@@ -41,7 +43,6 @@ typedef	struct 		s_light
 	t_vec			p;
 	t_vec			n;
 	double			inten;
-	double			ambient;
 	double			new_inten;
 }					t_light;
 
@@ -80,9 +81,13 @@ typedef struct 		s_sdl
 	t_cam			cam;
 	t_object		*obj;
 	int 			obj_num;
+	int 			light_num;
 	int 			clos_obj;
+	int 			obj_counter;
+	int 			light_counter;
 	double			min_t;
-	t_light			light;
+	double 			ambient;
+	t_light			*light;
 }					t_sdl;
 
 void				ft_parse(char *arg, t_sdl *sdl, t_ray *ray);
@@ -94,9 +99,13 @@ double				sphere_intersect(t_vec o, t_vec dir, t_object *obj);
 void				plane(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 double				plane_intersect(t_vec o, t_vec dir, t_object *obj);
 void				cylinder(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
+double				cylinder_intersect(t_vec o, t_vec dir, t_object *obj);
 t_vec				cyl_normal_calc(t_ray *ray, t_object *obj);
 double				get_t(double a, double b, double d);
-
+void				cone(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
+double				cone_intersect(t_vec o, t_vec dir, t_object *obj);
+t_vec				cone_normal_calc(t_ray *ray, t_object *obj);
+void				light(t_sdl *sdl, t_ray *ray);
 #endif
 
 

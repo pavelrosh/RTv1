@@ -27,8 +27,18 @@ void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl)
 void	set_color(t_sdl *sdl, int i, int x, int y)
 {
 	double p;
+	int k;
 
-	p = sdl->light.new_inten > 1 ? 1 : sdl->light.new_inten;
+	k = 0;
+	p = 0;
+	// p = sdl->light.new_inten > 1 ? 1 : sdl->light.new_inten;
+	while (k < sdl->light_num)
+	{
+		if (sdl->light[k].new_inten > 1)
+			sdl->light[k].new_inten = 1;
+		p += sdl->light[k].new_inten;
+		k++;
+	}
 	if (i > -1)
 	{
 		SDL_SetRenderDrawColor(sdl->rend, sdl->obj[i].col.rgb[0] * p, 
@@ -49,7 +59,6 @@ void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 	i = 0;
 	sdl->clos_obj = -1;
 	sdl->min_t = INFINITY;
-	// printf("%f %f %f %f\n", sdl->obj[0].pos.x, sdl->obj[0].pos.y, sdl->obj[0].pos.z, sdl->obj[0].r);
 	while (i < sdl->obj_num)
 	{
 		if (sdl->obj[i].name == SPHERE)
@@ -58,20 +67,16 @@ void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 			plane(sdl, ray, i, &sdl->obj[i]);
 		else if (sdl->obj[i].name == CYLINDER)
 			cylinder(sdl, ray, i, &sdl->obj[i]);
+		else if (sdl->obj[i].name == CONE)
+			cone(sdl, ray, i, &sdl->obj[i]);
 		i++;
 	}
 	if (sdl->clos_obj > -1)
 	{
-		sdl->light.p = vec_sum(ray->orig, vec_scale(ray->dir, sdl->obj[sdl->clos_obj].t));
-		if (sdl->obj[sdl->clos_obj].name == SPHERE)	
-			sdl->light.n = vec_norm(vec_sub(sdl->light.p, sdl->obj[sdl->clos_obj].pos));
-		else if (sdl->obj[sdl->clos_obj].name == PLANE)
-			sdl->light.n = sdl->obj[sdl->clos_obj].rot;
-		else if (sdl->obj[sdl->clos_obj].name == CYLINDER)
-			sdl->light.n = cyl_normal_calc(ray, &sdl->obj[sdl->clos_obj]);
-		get_intensity(sdl, &sdl->light, vec_scale(ray->dir, -1), sdl->obj[sdl->clos_obj].specular);
+		// printf("%s\n", "DO");
+		light(sdl, ray);
+		// printf("%s\n", "POSLE");
 	}
-	// printf("%f %f %f\n", sdl->light.p.x, sdl->light.p.y, sdl->light.p.z);
 	set_color(sdl, sdl->clos_obj, x, y);
 }
 

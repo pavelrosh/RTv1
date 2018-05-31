@@ -37,10 +37,9 @@ int 	main(int argc, char **argv)
 	SDL_Event 	event;
 
 	init_sdl(&sdl);
-	sdl.obj = malloc(sizeof(t_object) * 10); //hardcode!
+	ft_parse(argv[1], &sdl, &ray);
 	if (argc != 2 || !argv[1])
 		ft_error("Wrong arguments");
-	ft_parse(argv[1], &sdl, &ray);
 	ray_trace_init(&sdl, &ray);
 	SDL_RenderPresent(sdl.rend);
 	while (1)
@@ -48,7 +47,7 @@ int 	main(int argc, char **argv)
 			if((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type &&
 				SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
 				exit(0);
-	free(sdl.obj);
+	// free(sdl.obj);
 	return (0);
 }
 
