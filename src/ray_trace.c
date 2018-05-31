@@ -68,7 +68,7 @@ void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 		else if (sdl->obj[sdl->clos_obj].name == PLANE)
 			sdl->light.n = sdl->obj[sdl->clos_obj].rot;
 		else if (sdl->obj[sdl->clos_obj].name == CYLINDER)
-			sdl->light.n = sdl->obj[sdl->clos_obj].rot;
+			sdl->light.n = cyl_normal_calc(ray, &sdl->obj[sdl->clos_obj]);
 		get_intensity(sdl, &sdl->light, vec_scale(ray->dir, -1), sdl->obj[sdl->clos_obj].specular);
 	}
 	// printf("%f %f %f\n", sdl->light.p.x, sdl->light.p.y, sdl->light.p.z);

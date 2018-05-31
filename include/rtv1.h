@@ -94,6 +94,8 @@ double				sphere_intersect(t_vec o, t_vec dir, t_object *obj);
 void				plane(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 double				plane_intersect(t_vec o, t_vec dir, t_object *obj);
 void				cylinder(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
+t_vec				cyl_normal_calc(t_ray *ray, t_object *obj);
+double				get_t(double a, double b, double d);
 
 #endif
 
