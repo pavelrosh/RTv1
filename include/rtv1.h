@@ -94,19 +94,24 @@ void				ft_error(char *str);
 void				ray_trace_init(t_sdl *sdl, t_ray *ray);
 void				get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s);
 void				sphere(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
+void				sphere_data(t_sdl *sdl, char **str);
 double				sphere_intersect(t_vec o, t_vec dir, t_object *obj);
 t_vec				sphere_normal(t_ray *ray, t_object *obj);
 void				plane(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
+void				plane_data(t_sdl *sdl, char **str);
 double				plane_intersect(t_vec o, t_vec dir, t_object *obj);
 t_vec				plane_normal(t_ray *ray, t_object *obj);
 void				cylinder(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
+void				cylinder_data(t_sdl *sdl, char **str);
 double				cylinder_intersect(t_vec o, t_vec dir, t_object *obj);
 t_vec				cyl_normal_calc(t_ray *ray, t_object *obj);
 double				get_t(double a, double b, double d);
 void				cone(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
+void				cone_data(t_sdl *sdl, char **str);
 double				cone_intersect(t_vec o, t_vec dir, t_object *obj);
 t_vec				cone_normal_calc(t_ray *ray, t_object *obj);
 void				light(t_sdl *sdl, t_ray *ray);
+void				cam_data(t_sdl *sdl, char **str);
 #endif
 
 

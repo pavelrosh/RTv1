@@ -12,6 +12,21 @@
 
 #include "../include/rtv1.h"
 
+void	plane_data(t_sdl *sdl, char **str)
+{
+	sdl->obj[sdl->obj_counter].pos.x = (double)(atoi(str[1]));
+	sdl->obj[sdl->obj_counter].pos.y = (double)(atoi(str[2]));
+	sdl->obj[sdl->obj_counter].pos.z = (double)(atoi(str[3]));
+	sdl->obj[sdl->obj_counter].rot.x = (double)(atoi(str[4]));
+	sdl->obj[sdl->obj_counter].rot.y = (double)(atoi(str[5]));
+	sdl->obj[sdl->obj_counter].rot.z = (double)(atoi(str[6]));
+	sdl->obj[sdl->obj_counter].col.rgb[0] = (unsigned char)(atoi(str[7]));
+	sdl->obj[sdl->obj_counter].col.rgb[1] = (unsigned char)(atoi(str[8]));
+	sdl->obj[sdl->obj_counter].col.rgb[2] = (unsigned char)(atoi(str[9]));
+	sdl->obj[sdl->obj_counter].specular = (double)(atoi(str[10]));
+	sdl->obj[sdl->obj_counter].name = PLANE;
+	sdl->obj_counter++;
+}
 //normalize
 //t = -X | V / D | V
 t_vec	plane_normal(t_ray *ray, t_object *obj)

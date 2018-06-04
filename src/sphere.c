@@ -12,6 +12,20 @@
 
 #include "../include/rtv1.h"
 
+void	sphere_data(t_sdl *sdl, char **str)
+{
+	sdl->obj[sdl->obj_counter].pos.x = (double)(atoi(str[1]));
+	sdl->obj[sdl->obj_counter].pos.y = (double)(atoi(str[2]));
+	sdl->obj[sdl->obj_counter].pos.z = (double)(atoi(str[3]));
+	sdl->obj[sdl->obj_counter].r = (double)(atoi(str[4])) / 10;
+	sdl->obj[sdl->obj_counter].col.rgb[0] = (unsigned char)(atoi(str[5]));
+	sdl->obj[sdl->obj_counter].col.rgb[1] = (unsigned char)(atoi(str[6]));
+	sdl->obj[sdl->obj_counter].col.rgb[2] = (unsigned char)(atoi(str[7]));
+	sdl->obj[sdl->obj_counter].specular = (double)(atoi(str[8]));
+	sdl->obj[sdl->obj_counter].name = SPHERE;
+	sdl->obj_counter++;
+}
+
 t_vec	sphere_normal(t_ray *ray, t_object *obj)
 {
 	t_vec n;

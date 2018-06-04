@@ -1,5 +1,5 @@
 cam: 0 0 -25 0 0 0
 light: 0 10 15 45
 light: 0 -10 15 45
-sphere: 0 0 15 1 0 0 255 200
+sphere: 0 0 15 8 0 0 255 200
 ambient: 5

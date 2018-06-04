@@ -12,81 +12,38 @@
 
 #include "../include/rtv1.h"
 
-void	sphere_data(t_sdl *sdl, char **str)
+void	val_1(char **str, int k)
 {
-	sdl->obj[sdl->obj_counter].pos.x = (double)(atoi(str[1]));
-	sdl->obj[sdl->obj_counter].pos.y = (double)(atoi(str[2]));
-	sdl->obj[sdl->obj_counter].pos.z = (double)(atoi(str[3]));
-	sdl->obj[sdl->obj_counter].r = (double)(atoi(str[4]));
-	sdl->obj[sdl->obj_counter].col.rgb[0] = (unsigned char)(atoi(str[5]));
-	sdl->obj[sdl->obj_counter].col.rgb[1] = (unsigned char)(atoi(str[6]));
-	sdl->obj[sdl->obj_counter].col.rgb[2] = (unsigned char)(atoi(str[7]));
-	sdl->obj[sdl->obj_counter].specular = (double)(atoi(str[8]));
-	sdl->obj[sdl->obj_counter].name = SPHERE;
-	sdl->obj_counter++;
+	int i;
+
+	i = 0;
+	while (++i <= k)
+		if ((atoi(str[i]) == 0 && str[i][0] != '0') || str[k + 1] != NULL)
+			ft_error("Wrong input");
 }
 
-void	plane_data(t_sdl *sdl, char **str)
+void	validation(char **str)
 {
-	sdl->obj[sdl->obj_counter].pos.x = (double)(atoi(str[1]));
-	sdl->obj[sdl->obj_counter].pos.y = (double)(atoi(str[2]));
-	sdl->obj[sdl->obj_counter].pos.z = (double)(atoi(str[3]));
-	sdl->obj[sdl->obj_counter].rot.x = (double)(atoi(str[4]));
-	sdl->obj[sdl->obj_counter].rot.y = (double)(atoi(str[5]));
-	sdl->obj[sdl->obj_counter].rot.z = (double)(atoi(str[6]));
-	sdl->obj[sdl->obj_counter].col.rgb[0] = (unsigned char)(atoi(str[7]));
-	sdl->obj[sdl->obj_counter].col.rgb[1] = (unsigned char)(atoi(str[8]));
-	sdl->obj[sdl->obj_counter].col.rgb[2] = (unsigned char)(atoi(str[9]));
-	sdl->obj[sdl->obj_counter].specular = (double)(atoi(str[10]));
-	sdl->obj[sdl->obj_counter].name = PLANE;
-	sdl->obj_counter++;
-}
-
-void	cylinder_data(t_sdl *sdl, char **str)
-{
-	sdl->obj[sdl->obj_counter].pos.x = (double)(atoi(str[1]));
-	sdl->obj[sdl->obj_counter].pos.y = (double)(atoi(str[2]));
-	sdl->obj[sdl->obj_counter].pos.z = (double)(atoi(str[3]));
-	sdl->obj[sdl->obj_counter].r = (double)(atoi(str[4]));
-	sdl->obj[sdl->obj_counter].rot.x = (double)(atoi(str[5]));
-	sdl->obj[sdl->obj_counter].rot.y = (double)(atoi(str[6]));
-	sdl->obj[sdl->obj_counter].rot.z = (double)(atoi(str[7]));
-	sdl->obj[sdl->obj_counter].col.rgb[0] = (unsigned char)(atoi(str[8]));
-	sdl->obj[sdl->obj_counter].col.rgb[1] = (unsigned char)(atoi(str[9]));
-	sdl->obj[sdl->obj_counter].col.rgb[2] = (unsigned char)(atoi(str[10]));
-	sdl->obj[sdl->obj_counter].specular = (double)(atoi(str[11]));
-	sdl->obj[sdl->obj_counter].name = CYLINDER;
-	sdl->obj_counter++;
-}
-
-void	cone_data(t_sdl *sdl, char **str)
-{
-	sdl->obj[sdl->obj_counter].pos.x = (double)(atoi(str[1]));
-	sdl->obj[sdl->obj_counter].pos.y = (double)(atoi(str[2]));
-	sdl->obj[sdl->obj_counter].pos.z = (double)(atoi(str[3]));
-	sdl->obj[sdl->obj_counter].r = (double)(atoi(str[4]));
-	sdl->obj[sdl->obj_counter].rot.x = (double)(atoi(str[5]));
-	sdl->obj[sdl->obj_counter].rot.y = (double)(atoi(str[6]));
-	sdl->obj[sdl->obj_counter].rot.z = (double)(atoi(str[7]));
-	sdl->obj[sdl->obj_counter].col.rgb[0] = (unsigned char)(atoi(str[8]));
-	sdl->obj[sdl->obj_counter].col.rgb[1] = (unsigned char)(atoi(str[9]));
-	sdl->obj[sdl->obj_counter].col.rgb[2] = (unsigned char)(atoi(str[10]));
-	sdl->obj[sdl->obj_counter].specular = (double)(atoi(str[11]));
-	sdl->obj[sdl->obj_counter].name = CONE;
-	sdl->obj_counter++;
+	if (ft_strequ(str[0], "cam:"))
+		val_1(str, 6);
+	else if (ft_strequ(str[0], "sphere:"))
+		val_1(str, 8);	
+	else if (ft_strequ(str[0], "plane:"))
+		val_1(str, 10);	
+	else if (ft_strequ(str[0], "cylinder:"))
+		val_1(str, 11);
+	else if (ft_strequ(str[0], "cone:"))
+		val_1(str, 11);
+	else if (ft_strequ(str[0], "light:"))
+		val_1(str, 4);
+	else if (ft_strequ(str[0], "ambient:"))
+		val_1(str, 1);
 }
 
 void	split_parse(char **str, t_sdl *sdl)
 {
 	if (ft_strequ(str[0], "cam:"))
-	{
-		sdl->cam.pos.x = (double)(atoi(str[1]));
-		sdl->cam.pos.y = (double)(atoi(str[2]));
-		sdl->cam.pos.z = (double)(atoi(str[3]));
-		sdl->cam.rot.x = (double)(atoi(str[4]));
-		sdl->cam.rot.y = (double)(atoi(str[5]));
-		sdl->cam.rot.z = (double)(atoi(str[6]));
-	}
+		cam_data(sdl, str);
 	else if (ft_strequ(str[0], "sphere:"))
 		sphere_data(sdl, str);
 	else if (ft_strequ(str[0], "plane:"))
@@ -112,20 +69,27 @@ void	obj_counter(char *arg, t_sdl *sdl)
 	char	*line;
 	int 	fd;
 	int 	i;
+	int 	cam_is;
 	char	**spl_res;
 
 	i = 0;
+	cam_is = 0;
 	if ((fd = open(arg, O_RDONLY)) < 0)
 		ft_error("Can't open the file");
 	while ((i = get_next_line(fd, &line)) > 0)
 	{
 		spl_res = ft_strsplit(line, ' ');
+		validation(spl_res);
 		if (ft_strequ(spl_res[0], "sphere:") || ft_strequ(spl_res[0], "plane:") ||
 		 ft_strequ(spl_res[0], "cylinder:") || ft_strequ(spl_res[0], "cone:"))
 			sdl->obj_num++;
 		else if (ft_strequ(spl_res[0], "light:"))
 			sdl->light_num++;
+		else if (ft_strequ(spl_res[0], "cam:"))
+			cam_is++;
 	}
+	if (cam_is != 1)
+		ft_error("Have no camera");
 	close(fd);
 }
 
@@ -167,28 +131,3 @@ void	ft_parse(char *arg, t_sdl *sdl, t_ray *ray)
 	// printf("%f %f %f %f\n", sdl->light.pos.x, sdl->light.pos.y, sdl->light.pos.z, sdl->light.inten);
 	close(fd);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
