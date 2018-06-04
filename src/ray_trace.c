@@ -31,12 +31,13 @@ void	set_color(t_sdl *sdl, int i, int x, int y)
 
 	k = 0;
 	p = 0;
-	// p = sdl->light.new_inten > 1 ? 1 : sdl->light.new_inten;
 	while (k < sdl->light_num)
 	{
 		if (sdl->light[k].new_inten > 1)
 			sdl->light[k].new_inten = 1;
 		p += sdl->light[k].new_inten;
+		if (p > 1)
+			p = 1;
 		k++;
 	}
 	if (i > -1)
@@ -72,11 +73,7 @@ void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 		i++;
 	}
 	if (sdl->clos_obj > -1)
-	{
-		// printf("%s\n", "DO");
 		light(sdl, ray);
-		// printf("%s\n", "POSLE");
-	}
 	set_color(sdl, sdl->clos_obj, x, y);
 }
 

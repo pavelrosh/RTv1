@@ -12,6 +12,16 @@
 
 #include "../include/rtv1.h"
 
+t_vec	sphere_normal(t_ray *ray, t_object *obj)
+{
+	t_vec n;
+	n = vec_sum(ray->orig, vec_scale(ray->dir, obj->t));
+	n = vec_norm(vec_sub(n, obj->pos));
+	if (vec_dot(ray->dir, n) > EPS)
+		n = vec_scale(n, -1);
+	return (n);
+}
+
 double	get_t(double a, double b, double d)
 {
 	double t1;

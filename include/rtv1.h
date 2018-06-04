@@ -27,7 +27,6 @@
 # define DHEIGHT 800
 # define V_W 40
 # define V_H 40
-// # define FOV 60.0
 # define SPHERE 1
 # define PLANE 2
 # define CYLINDER 3
@@ -96,8 +95,10 @@ void				ray_trace_init(t_sdl *sdl, t_ray *ray);
 void				get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s);
 void				sphere(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 double				sphere_intersect(t_vec o, t_vec dir, t_object *obj);
+t_vec				sphere_normal(t_ray *ray, t_object *obj);
 void				plane(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 double				plane_intersect(t_vec o, t_vec dir, t_object *obj);
+t_vec				plane_normal(t_ray *ray, t_object *obj);
 void				cylinder(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 double				cylinder_intersect(t_vec o, t_vec dir, t_object *obj);
 t_vec				cyl_normal_calc(t_ray *ray, t_object *obj);
