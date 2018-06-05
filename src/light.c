@@ -12,6 +12,21 @@
 
 #include "../include/rtv1.h"
 
+void	light_data(t_sdl *sdl, char **str)
+{
+	int i;
+
+	i = -1;
+	sdl->light[sdl->light_counter].pos.x = (double)(atoi(str[1]));
+	sdl->light[sdl->light_counter].pos.y = (double)(atoi(str[2]));
+	sdl->light[sdl->light_counter].pos.z = (double)(atoi(str[3]));
+	sdl->light[sdl->light_counter].inten = (double)(atoi(str[4])) / 100;
+	sdl->light_counter++;
+	while (++i <= 4)
+		free(str[i]);
+	free(str);
+}
+
 int 	shadow_init(t_light *light, t_sdl *sdl)
 {
 	int 	i;
@@ -19,40 +34,23 @@ int 	shadow_init(t_light *light, t_sdl *sdl)
 	double 	t;
 	t_vec	dir;
 
-	i = 0;
+	i = -1;
 	t = 0;
 	max_t = vec_len(vec_sub(light->pos, light->p));
 	dir = vec_norm(vec_sub(light->pos, light->p));
 	light->p = vec_sum(light->p, vec_scale(dir, EPS));
-	while (i < sdl->obj_num)
-	{
-		if (i == sdl->clos_obj)// не перевіряю перетин для поточної фігури
-			i++;					
+	while (++i < sdl->obj_num)
+	{					
 		if (sdl->obj[i].name == SPHERE)
-		{
 			t = sphere_intersect(light->p, dir, &sdl->obj[i]);
-			if (t > 0.00001 && t < max_t)
-				return (1);
-		}
 		else if (sdl->obj[i].name == PLANE)
-		{
 			t = plane_intersect(light->p, dir, &sdl->obj[i]);
-			if (t > 0.00001 && t < max_t)
-				return (1);
-		}
 		else if (sdl->obj[i].name == CONE)
-		{
 			t = cone_intersect(light->p, dir, &sdl->obj[i]);
-			if (t > 0.00001 && t < max_t)
-				return (1);
-		}
 		else if (sdl->obj[i].name == CYLINDER)
-		{
 			t = cylinder_intersect(light->p, dir, &sdl->obj[i]);
-			if (t > 0.00001 && t < max_t)
+		if (t > 0.00001 && t < max_t)
 				return (1);
-		}
-		i++;
 	}
 	return (0);
 }

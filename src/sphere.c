@@ -14,6 +14,9 @@
 
 void	sphere_data(t_sdl *sdl, char **str)
 {
+	int i;
+
+	i = -1;
 	sdl->obj[sdl->obj_counter].pos.x = (double)(atoi(str[1]));
 	sdl->obj[sdl->obj_counter].pos.y = (double)(atoi(str[2]));
 	sdl->obj[sdl->obj_counter].pos.z = (double)(atoi(str[3]));
@@ -24,6 +27,9 @@ void	sphere_data(t_sdl *sdl, char **str)
 	sdl->obj[sdl->obj_counter].specular = (double)(atoi(str[8]));
 	sdl->obj[sdl->obj_counter].name = SPHERE;
 	sdl->obj_counter++;
+	while (++i <= 8)
+		free(str[i]);
+	free(str);
 }
 
 t_vec	sphere_normal(t_ray *ray, t_object *obj)

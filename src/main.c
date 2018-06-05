@@ -14,12 +14,18 @@
 
 void	cam_data(t_sdl *sdl, char **str)
 {
+	int i;
+
+	i = -1;
 	sdl->cam.pos.x = (double)(atoi(str[1]));
 	sdl->cam.pos.y = (double)(atoi(str[2]));
 	sdl->cam.pos.z = (double)(atoi(str[3]));
 	sdl->cam.rot.x = (double)(atoi(str[4]));
 	sdl->cam.rot.y = (double)(atoi(str[5]));
 	sdl->cam.rot.z = (double)(atoi(str[6]));
+	while (++i <= 6)
+		free(str[i]);
+	free(str);
 }
 
 void	init_sdl(t_sdl *sdl)
@@ -52,13 +58,15 @@ int 	main(int argc, char **argv)
 		ft_error("Wrong arguments");
 	ray_trace_init(&sdl, &ray);
 	SDL_RenderPresent(sdl.rend);
+	free(sdl.obj);
+	sdl.obj = 0;
+	free(sdl.light);
+	sdl.light = 0;
 	while (1)
 		while(SDL_PollEvent(&event))
 			if((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type &&
 				SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
 				exit(0);
-	free(sdl.obj);
-	free(sdl.light);
 	return (0);
 }
 

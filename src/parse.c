@@ -20,10 +20,17 @@ void	val_1(char **str, int k)
 	while (++i <= k)
 		if ((atoi(str[i]) == 0 && str[i][0] != '0') || str[k + 1] != NULL)
 			ft_error("Wrong input");
+	i = -1;
+	while (++i <= k)
+		free(str[i]);
+	free(str);
 }
 
 void	validation(char **str)
 {
+	int i;
+
+	i = 0;
 	if (ft_strequ(str[0], "cam:"))
 		val_1(str, 6);
 	else if (ft_strequ(str[0], "sphere:"))
@@ -42,6 +49,9 @@ void	validation(char **str)
 
 void	split_parse(char **str, t_sdl *sdl)
 {
+	int i;
+
+	i = -1;
 	if (ft_strequ(str[0], "cam:"))
 		cam_data(sdl, str);
 	else if (ft_strequ(str[0], "sphere:"))
@@ -53,15 +63,14 @@ void	split_parse(char **str, t_sdl *sdl)
 	else if (ft_strequ(str[0], "cone:"))
 		cone_data(sdl, str);
 	else if (ft_strequ(str[0], "light:"))
-	{
-		sdl->light[sdl->light_counter].pos.x = (double)(atoi(str[1]));
-		sdl->light[sdl->light_counter].pos.y = (double)(atoi(str[2]));
-		sdl->light[sdl->light_counter].pos.z = (double)(atoi(str[3]));
-		sdl->light[sdl->light_counter].inten = (double)(atoi(str[4])) / 100;
-		sdl->light_counter++;
-	}
+		light_data(sdl, str);
 	else if (ft_strequ(str[0], "ambient:"))
+	{
 		sdl->ambient = (double)(atoi(str[1])) / 100;
+		while (++i <= 1)
+			free(str[i]);
+		free(str);
+	}
 }
 
 void	obj_counter(char *arg, t_sdl *sdl)
@@ -74,12 +83,12 @@ void	obj_counter(char *arg, t_sdl *sdl)
 
 	i = 0;
 	cam_is = 0;
+	line = NULL;
 	if ((fd = open(arg, O_RDONLY)) < 0)
 		ft_error("Can't open the file");
 	while ((i = get_next_line(fd, &line)) > 0)
 	{
 		spl_res = ft_strsplit(line, ' ');
-		validation(spl_res);
 		if (ft_strequ(spl_res[0], "sphere:") || ft_strequ(spl_res[0], "plane:") ||
 		 ft_strequ(spl_res[0], "cylinder:") || ft_strequ(spl_res[0], "cone:"))
 			sdl->obj_num++;
@@ -87,6 +96,8 @@ void	obj_counter(char *arg, t_sdl *sdl)
 			sdl->light_num++;
 		else if (ft_strequ(spl_res[0], "cam:"))
 			cam_is++;
+		validation(spl_res);
+		ft_strdel(&line);
 	}
 	if (cam_is != 1)
 		ft_error("Have no camera");
@@ -109,12 +120,10 @@ void	ft_parse(char *arg, t_sdl *sdl, t_ray *ray)
 	obj_counter(arg, sdl);
 	sdl->obj = malloc(sizeof(t_object) * sdl->obj_num + 1);
 	sdl->light = malloc(sizeof(t_light) * sdl->light_num + 1);
-	// printf("%d %d\n", sdl->obj_num, sdl->light_num);
 	if ((fd = open(arg, O_RDONLY)) < 0)
 		ft_error("Can't open the file");
 	while ((i = get_next_line(fd, &line)) > 0)
 	{
-		// printf("%s\n", line);
 		spl_res = ft_strsplit(line, ' ');
 		split_parse(spl_res, sdl);
 		ft_strdel(&line);
@@ -122,12 +131,4 @@ void	ft_parse(char *arg, t_sdl *sdl, t_ray *ray)
 	ray->orig.x = sdl->cam.pos.x;
 	ray->orig.y = sdl->cam.pos.y;
 	ray->orig.z = sdl->cam.pos.z;
-	// printf("%f %f %f %f %f %f\n", sdl->cam.pos.x, sdl->cam.pos.y, sdl->cam.pos.z,
-		// sdl->cam.rot.x, sdl->cam.rot.y, sdl->cam.rot.z);
-	// printf("%f %f %f %f %f %f %f %u %u %u %f\n", sdl->obj[0].pos.x, sdl->obj[0].pos.y, 
-		// sdl->obj[0].pos.z, sdl->obj[0].r, sdl->obj[0].rot.x, sdl->obj[0].rot.y, sdl->obj[0].rot.z, sdl->obj[0].col.rgb[0], 
-		// sdl->obj[0].col.rgb[1], sdl->obj[0].col.rgb[2], sdl->obj[0].specular);
-	// printf("%d\n", sdl->obj_num);
-	// printf("%f %f %f %f\n", sdl->light.pos.x, sdl->light.pos.y, sdl->light.pos.z, sdl->light.inten);
-	close(fd);
 }

@@ -33,8 +33,6 @@
 # define CONE 4
 # define EPS 0.000001
 # define OBJ sdl->obj[sdl->clos_obj]
-// # define ABS(x)		(x) > 0 ? (x) : -(x)
-// # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
 
 typedef	struct 		s_light
 {
@@ -112,6 +110,7 @@ double				cone_intersect(t_vec o, t_vec dir, t_object *obj);
 t_vec				cone_normal_calc(t_ray *ray, t_object *obj);
 void				light(t_sdl *sdl, t_ray *ray);
 void				cam_data(t_sdl *sdl, char **str);
+void				light_data(t_sdl *sdl, char **str);
 #endif
 
 

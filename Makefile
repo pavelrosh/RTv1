@@ -10,8 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = rtv1
-# SRC = main.c parse.c ray_trace.c
+NAME = RTv1
 SRC = src/*.c
 LIBS = libft/libft.a vec_op/veclib.a
 HEADER = include/rtv1.h
@@ -36,3 +35,4 @@ lib:
 veclib:
 	@make -C vec_op
 	@make clean -C vec_op 
+re: fclean all
