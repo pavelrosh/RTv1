@@ -89,6 +89,7 @@ void	obj_counter(char *arg, t_sdl *sdl)
 	while ((i = get_next_line(fd, &line)) > 0)
 	{
 		spl_res = ft_strsplit(line, ' ');
+		ft_strdel(&line);
 		if (ft_strequ(spl_res[0], "sphere:") || ft_strequ(spl_res[0], "plane:") ||
 		 ft_strequ(spl_res[0], "cylinder:") || ft_strequ(spl_res[0], "cone:"))
 			sdl->obj_num++;
@@ -97,8 +98,8 @@ void	obj_counter(char *arg, t_sdl *sdl)
 		else if (ft_strequ(spl_res[0], "cam:"))
 			cam_is++;
 		validation(spl_res);
-		ft_strdel(&line);
 	}
+	ft_strdel(&line);
 	if (cam_is != 1)
 		ft_error("Have no camera");
 	close(fd);
@@ -118,8 +119,8 @@ void	ft_parse(char *arg, t_sdl *sdl, t_ray *ray)
 	sdl->obj_counter = 0;
 	sdl->light_counter = 0;
 	obj_counter(arg, sdl);
-	sdl->obj = malloc(sizeof(t_object) * sdl->obj_num + 1);
-	sdl->light = malloc(sizeof(t_light) * sdl->light_num + 1);
+	sdl->obj = ft_memalloc(sizeof(t_object) * sdl->obj_num);
+	sdl->light = ft_memalloc(sizeof(t_light) * sdl->light_num);
 	if ((fd = open(arg, O_RDONLY)) < 0)
 		ft_error("Can't open the file");
 	while ((i = get_next_line(fd, &line)) > 0)
@@ -128,6 +129,7 @@ void	ft_parse(char *arg, t_sdl *sdl, t_ray *ray)
 		split_parse(spl_res, sdl);
 		ft_strdel(&line);
 	}
+	ft_strdel(&line);
 	ray->orig.x = sdl->cam.pos.x;
 	ray->orig.y = sdl->cam.pos.y;
 	ray->orig.z = sdl->cam.pos.z;

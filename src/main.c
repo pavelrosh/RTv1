@@ -58,10 +58,7 @@ int 	main(int argc, char **argv)
 		ft_error("Wrong arguments");
 	ray_trace_init(&sdl, &ray);
 	SDL_RenderPresent(sdl.rend);
-	free(sdl.obj);
-	sdl.obj = 0;
-	free(sdl.light);
-	sdl.light = 0;
+	// system("leaks RTv1");
 	while (1)
 		while(SDL_PollEvent(&event))
 			if((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type &&
