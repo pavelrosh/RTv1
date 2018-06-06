@@ -71,12 +71,10 @@ t_vec	cyl_normal_calc(t_ray *ray, t_object *obj)
 void	cylinder(t_sdl *sdl, t_ray *ray, int i, t_object *obj)
 {
 	obj->t = cylinder_intersect(ray->orig, ray->dir, obj);
-	// printf("%f %f %f\n", sdl->obj[i].pos.x, sdl->obj[i].pos.y, sdl->obj[i].pos.z);
+	obj->rot = vec_norm(obj->rot);
 	if (obj->t > 0 && obj->t < sdl->min_t)
 	{
 		sdl->min_t = obj->t;
 		sdl->clos_obj = i;
-		// normal_calc(ray, obj);
 	}
-	// printf("%d %f\n",sdl->clos_obj, sdl->min_t);
 }

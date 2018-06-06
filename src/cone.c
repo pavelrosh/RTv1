@@ -21,9 +21,9 @@ void	cone_data(t_sdl *sdl, char **str)
 	sdl->obj[sdl->obj_counter].pos.y = (double)(atoi(str[2]));
 	sdl->obj[sdl->obj_counter].pos.z = (double)(atoi(str[3]));
 	sdl->obj[sdl->obj_counter].r = (double)(atoi(str[4])) / 10;
-	sdl->obj[sdl->obj_counter].rot.x = (double)(atoi(str[5]));
-	sdl->obj[sdl->obj_counter].rot.y = (double)(atoi(str[6]));
-	sdl->obj[sdl->obj_counter].rot.z = (double)(atoi(str[7]));
+	sdl->obj[sdl->obj_counter].rot.x = (double)(atoi(str[5])) / 10;
+	sdl->obj[sdl->obj_counter].rot.y = (double)(atoi(str[6])) / 10;
+	sdl->obj[sdl->obj_counter].rot.z = (double)(atoi(str[7])) / 10;
 	sdl->obj[sdl->obj_counter].col.rgb[0] = (unsigned char)(atoi(str[8]));
 	sdl->obj[sdl->obj_counter].col.rgb[1] = (unsigned char)(atoi(str[9]));
 	sdl->obj[sdl->obj_counter].col.rgb[2] = (unsigned char)(atoi(str[10]));
@@ -75,6 +75,7 @@ t_vec	cone_normal_calc(t_ray *ray, t_object *obj)
 void	cone(t_sdl *sdl, t_ray *ray, int i, t_object *obj)
 {
 	obj->t = cone_intersect(ray->orig, ray->dir, obj);
+	obj->rot = vec_norm(obj->rot);
 	// printf("%f %f %f\n", sdl->obj[i].pos.x, sdl->obj[i].pos.y, sdl->obj[i].pos.z);
 	if (obj->t > 0 && obj->t < sdl->min_t)
 	{
