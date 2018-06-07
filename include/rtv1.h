@@ -21,7 +21,8 @@
 # include "../libft/libft.h"
 # include "../vec_op/vec_op.h"
 
-# include <SDL2/SDL.h>
+// # include <SDL2/SDL.h>
+# include "../SDL2.framework/Headers/SDL.h"
 
 # define DWIDTH 800
 # define DHEIGHT 800

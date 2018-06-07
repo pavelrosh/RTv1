@@ -59,6 +59,7 @@ int 	main(int argc, char **argv)
 	ray_trace_init(&sdl, &ray);
 	SDL_RenderPresent(sdl.rend);
 	// system("leaks RTv1");
+	printf("%s\n", "OK");
 	while (1)
 		while(SDL_PollEvent(&event))
 			if((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type &&

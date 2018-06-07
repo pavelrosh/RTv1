@@ -11,28 +11,40 @@
 # **************************************************************************** #
 
 NAME = RTv1
-SRC = src/*.c
+SRC = src/main.c\
+	src/cylinder.c\
+	src/light.c\
+	src/cone.c\
+	src/parse.c\
+	src/plane.c\
+	src/sphere.c\
+	src/ray_trace.c
+OBJ = $(SRC:.c=.o)
 LIBS = libft/libft.a vec_op/veclib.a
 HEADER = include/rtv1.h
-FLAGS = -F /Library/Frameworks/ -framework SDL2 -Wall -Wextra -Werror
+CC_FLAGS = -Wall -Wextra
+FLAGS = -F /Library/Frameworks/ -framework SDL2
 
 all: $(NAME)
 
-$(NAME): lib veclib
-	gcc $(SRC) $(LIBS) $(FLAGS) -o $(NAME)
+$(NAME): lib veclib $(OBJ)
+	gcc $(CC_FLAGS) $(FLAGS) $(OBJ) $(LIBS) -o $(NAME)
+
+.c.o:
+	gcc $(CC_FLAGS) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -rf *.o
+	rm -rf $(OBJ)
 
 fclean: clean
 	make fclean -C libft 
-	make fclean -C vec_op 
+	make fclean -C vec_op
 	rm $(NAME)
+
 lib:
 	@make -C libft
-	@make clean -C libft 
 
 veclib:
 	@make -C vec_op
-	@make clean -C vec_op 
+
 re: fclean all
