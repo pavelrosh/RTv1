@@ -22,7 +22,7 @@ SRC = src/main.c\
 OBJ = $(SRC:.c=.o)
 LIBS = libft/libft.a vec_op/veclib.a
 HEADER = include/rtv1.h
-CC_FLAGS = -Wall -Wextra
+CC_FLAGS = -Wall -Wextra -Werror
 FLAGS = -F /Library/Frameworks/ -framework SDL2
 
 all: $(NAME)
@@ -37,14 +37,14 @@ clean:
 	rm -rf $(OBJ)
 
 fclean: clean
-	make fclean -C libft 
+	make fclean -C libft
 	make fclean -C vec_op
 	rm $(NAME)
 
 lib:
-	@make -C libft
+	@make -C libft re
 
 veclib:
-	@make -C vec_op
+	@make -C vec_op re 
 
 re: fclean all
