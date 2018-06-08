@@ -6,7 +6,7 @@
 /*   By: proshchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 19:21:06 by proshchy          #+#    #+#             */
-/*   Updated: 2018/05/30 19:21:07 by proshchy         ###   ########.fr       */
+/*   Updated: 2018/06/07 17:56:13 by proshchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,20 @@ void	cylinder_data(t_sdl *sdl, char **str)
 	int i;
 
 	i = -1;
-	sdl->obj[sdl->obj_counter].pos.x = (double)(atoi(str[1]));
-	sdl->obj[sdl->obj_counter].pos.y = (double)(atoi(str[2]));
-	sdl->obj[sdl->obj_counter].pos.z = (double)(atoi(str[3]));
-	sdl->obj[sdl->obj_counter].r = (double)(atoi(str[4])) / 10;
-	sdl->obj[sdl->obj_counter].rot.x = (double)(atoi(str[5]));
-	sdl->obj[sdl->obj_counter].rot.y = (double)(atoi(str[6]));
-	sdl->obj[sdl->obj_counter].rot.z = (double)(atoi(str[7]));
-	sdl->obj[sdl->obj_counter].col.rgb[0] = (unsigned char)(atoi(str[8]));
-	sdl->obj[sdl->obj_counter].col.rgb[1] = (unsigned char)(atoi(str[9]));
-	sdl->obj[sdl->obj_counter].col.rgb[2] = (unsigned char)(atoi(str[10]));
-	sdl->obj[sdl->obj_counter].specular = (double)(atoi(str[11]));
-	sdl->obj[sdl->obj_counter].name = CYLINDER;
+	OBJP.pos.x = (double)(atoi(str[1]));
+	OBJP.pos.y = (double)(atoi(str[2]));
+	OBJP.pos.z = (double)(atoi(str[3]));
+	OBJP.r = (double)(atoi(str[4])) / 10;
+	OBJP.rot.x = (double)(atoi(str[5]));
+	OBJP.rot.y = (double)(atoi(str[6]));
+	OBJP.rot.z = (double)(atoi(str[7]));
+	if (atoi(str[8]) < 0 || atoi(str[9]) < 0 || atoi(str[10]) < 0)
+		ft_error("Wrong input");
+	OBJP.col.rgb[0] = (unsigned char)(atoi(str[8]));
+	OBJP.col.rgb[1] = (unsigned char)(atoi(str[9]));
+	OBJP.col.rgb[2] = (unsigned char)(atoi(str[10]));
+	OBJP.specular = (double)(atoi(str[11]));
+	OBJP.name = CYLINDER;
 	sdl->obj_counter++;
 	while (++i <= 11)
 		free(str[i]);
@@ -37,11 +39,11 @@ void	cylinder_data(t_sdl *sdl, char **str)
 
 double	cylinder_intersect(t_vec o, t_vec dir, t_object *obj)
 {
-	double 	a;
-	double 	b;
-	double 	c;
-	double 	d;
-	t_vec 	x;
+	double	a;
+	double	b;
+	double	c;
+	double	d;
+	t_vec	x;
 
 	x = vec_sub(o, obj->pos);
 	a = vec_dot(dir, dir) - pow(vec_dot(dir, obj->rot), 2);
@@ -59,7 +61,7 @@ t_vec	cyl_normal_calc(t_ray *ray, t_object *obj)
 	t_vec	n;
 	t_vec	p;
 
-	m = obj->t * vec_dot(ray->dir, obj->rot) + 
+	m = obj->t * vec_dot(ray->dir, obj->rot) +
 	vec_dot(vec_sub(ray->orig, obj->pos), obj->rot);
 	p = vec_sum(ray->orig, vec_scale(ray->dir, obj->t));
 	n = vec_norm(vec_sub(vec_sub(p, obj->pos), vec_scale(obj->rot, m)));

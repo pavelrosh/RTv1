@@ -6,7 +6,7 @@
 /*   By: proshchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 17:23:42 by proshchy          #+#    #+#             */
-/*   Updated: 2018/05/15 17:23:44 by proshchy         ###   ########.fr       */
+/*   Updated: 2018/06/07 18:07:43 by proshchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # include <math.h>
 # define DTR(a)	((double)a * (M_PI / 180))
 
-typedef struct 	s_vec
+typedef struct	s_vec
 {
-	double 		x;
-	double 		y;
-	double 		z;
+	double		x;
+	double		y;
+	double		z;
 }				t_vec;
 
 t_vec			vec_sum(t_vec v1, t_vec v2);

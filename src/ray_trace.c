@@ -6,7 +6,7 @@
 /*   By: proshchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/21 18:49:25 by proshchy          #+#    #+#             */
-/*   Updated: 2018/05/21 18:49:26 by proshchy         ###   ########.fr       */
+/*   Updated: 2018/06/07 17:55:09 by proshchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	get_dir(double x, double y, t_ray *ray, t_sdl *sdl)
 
 void	set_color(t_sdl *sdl, int i, int x, int y)
 {
-	double p;
-	int k;
+	double	p;
+	int		k;
 
 	k = 0;
 	p = 0;
@@ -38,7 +38,7 @@ void	set_color(t_sdl *sdl, int i, int x, int y)
 	}
 	if (i > -1)
 	{
-		SDL_SetRenderDrawColor(sdl->rend, sdl->obj[i].col.rgb[0] * p, 
+		SDL_SetRenderDrawColor(sdl->rend, sdl->obj[i].col.rgb[0] * p,
 			sdl->obj[i].col.rgb[1] * p, sdl->obj[i].col.rgb[2] * p, 255);
 		SDL_RenderDrawPoint(sdl->rend, x, y);
 	}
@@ -51,7 +51,7 @@ void	set_color(t_sdl *sdl, int i, int x, int y)
 
 void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
 	sdl->clos_obj = -1;
@@ -75,10 +75,10 @@ void	intersection_check(t_ray *ray, t_sdl *sdl, int x, int y)
 
 void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 {
-	int 		x;
-	int 		y;
-	double		n_x;
-	double		n_y;
+	int		x;
+	int		y;
+	double	n_x;
+	double	n_y;
 
 	x = 0;
 	while (x <= DWIDTH)
@@ -91,7 +91,6 @@ void	ray_trace_init(t_sdl *sdl, t_ray *ray)
 			n_y = (y + 0.5) / (double)DHEIGHT;
 			n_y = 1 - (2 * n_y);
 			get_dir(n_x, n_y, ray, sdl);
-			// printf("%f %f\n", n_x, n_y);
 			intersection_check(ray, sdl, x, y);
 			y++;
 		}

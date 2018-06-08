@@ -6,7 +6,7 @@
 /*   By: proshchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 13:32:09 by proshchy          #+#    #+#             */
-/*   Updated: 2018/05/16 13:32:10 by proshchy         ###   ########.fr       */
+/*   Updated: 2018/06/08 16:09:15 by proshchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@
 # include <stdio.h>
 # include <pthread.h>
 
-# include "../libft/libft.h"
-# include "../vec_op/vec_op.h"
+# include "libft.h"
+# include "vec_op.h"
 
-// # include <SDL2/SDL.h>
-# include "../SDL2.framework/Headers/SDL.h"
+# include <SDL2/SDL.h>
 
 # define DWIDTH 800
 # define DHEIGHT 800
@@ -34,8 +33,10 @@
 # define CONE 4
 # define EPS 0.000001
 # define OBJ sdl->obj[sdl->clos_obj]
+# define SPL spl_res[0]
+# define OBJP sdl->obj[sdl->obj_counter]
 
-typedef	struct 		s_light
+typedef	struct		s_light
 {
 	t_vec			pos;
 	t_vec			p;
@@ -44,54 +45,57 @@ typedef	struct 		s_light
 	double			new_inten;
 }					t_light;
 
-typedef struct 		s_rgb
+typedef struct		s_rgb
 {
-	unsigned char 	rgb[3];
+	unsigned char	rgb[3];
 }					t_rgb;
 
-typedef struct 		s_object
+typedef struct		s_object
 {
-	t_vec			pos; //start point of cylinder
+	t_vec			pos;
 	t_rgb			col;
-	t_vec			rot; //plane normal, axis vector for cylinder
+	t_vec			rot;
 	double			r;
-	double 			t;
+	double			t;
 	int				name;
 	double			specular;
 }					t_object;
 
-typedef	struct 		s_cam
+typedef	struct		s_cam
 {
 	t_vec			pos;
 	t_vec			rot;
 }					t_cam;
 
-typedef	struct 		s_ray
+typedef	struct		s_ray
 {
 	t_vec			orig;
 	t_vec			dir;
 }					t_ray;
 
-typedef struct 		s_sdl
+typedef struct		s_sdl
 {
-	SDL_Window 		*wind;
-	SDL_Renderer 	*rend;
+	SDL_Window		*wind;
+	SDL_Renderer	*rend;
 	t_cam			cam;
 	t_object		*obj;
-	int 			obj_num;
-	int 			light_num;
-	int 			clos_obj;
-	int 			obj_counter;
-	int 			light_counter;
+	int				obj_num;
+	int				light_num;
+	int				clos_obj;
+	int				obj_counter;
+	int				light_counter;
+	int				cam_is;
 	double			min_t;
-	double 			ambient;
+	double			ambient;
 	t_light			*light;
 }					t_sdl;
 
-void				ft_parse(char *arg, t_sdl *sdl, t_ray *ray);
+void				validation_init(char *arg, t_sdl *sdl, int fd, int i);
+void				ft_parse(char *arg, t_sdl *sdl);
 void				ft_error(char *str);
 void				ray_trace_init(t_sdl *sdl, t_ray *ray);
-void				get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s);
+void				get_intensity(t_sdl *sdl, t_light *light,
+		t_vec v, double s);
 void				sphere(t_sdl *sdl, t_ray *ray, int i, t_object *obj);
 void				sphere_data(t_sdl *sdl, char **str);
 double				sphere_intersect(t_vec o, t_vec dir, t_object *obj);
@@ -113,19 +117,3 @@ void				light(t_sdl *sdl, t_ray *ray);
 void				cam_data(t_sdl *sdl, char **str);
 void				light_data(t_sdl *sdl, char **str);
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

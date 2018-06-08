@@ -6,7 +6,7 @@
 /*   By: proshchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 12:54:38 by proshchy          #+#    #+#             */
-/*   Updated: 2018/05/16 12:54:40 by proshchy         ###   ########.fr       */
+/*   Updated: 2018/06/07 18:08:24 by proshchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 double	vec_len(t_vec v1)
 {
-	return(sqrt(vec_dot(v1, v1)));
+	return (sqrt(vec_dot(v1, v1)));
 }

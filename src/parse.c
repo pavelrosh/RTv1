@@ -6,52 +6,27 @@
 /*   By: proshchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/17 15:01:23 by proshchy          #+#    #+#             */
-/*   Updated: 2018/05/17 15:01:24 by proshchy         ###   ########.fr       */
+/*   Updated: 2018/06/07 17:51:30 by proshchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rtv1.h"
 
-void	val_1(char **str, int k)
+void	ambient_data(t_sdl *sdl, char **str)
 {
 	int i;
 
-	i = 0;
-	while (++i <= k)
-		if ((atoi(str[i]) == 0 && str[i][0] != '0') || str[k + 1] != NULL)
-			ft_error("Wrong input");
 	i = -1;
-	while (++i <= k)
+	sdl->ambient = (double)(atoi(str[1])) / 100;
+	if (sdl->ambient < 0)
+		ft_error("Wrong intensity parameter");
+	while (++i <= 1)
 		free(str[i]);
 	free(str);
 }
 
-void	validation(char **str)
-{
-	int i;
-
-	i = 0;
-	if (ft_strequ(str[0], "cam:"))
-		val_1(str, 6);
-	else if (ft_strequ(str[0], "sphere:"))
-		val_1(str, 8);	
-	else if (ft_strequ(str[0], "plane:"))
-		val_1(str, 10);	
-	else if (ft_strequ(str[0], "cylinder:"))
-		val_1(str, 11);
-	else if (ft_strequ(str[0], "cone:"))
-		val_1(str, 11);
-	else if (ft_strequ(str[0], "light:"))
-		val_1(str, 4);
-	else if (ft_strequ(str[0], "ambient:"))
-		val_1(str, 1);
-}
-
 void	split_parse(char **str, t_sdl *sdl)
 {
-	int i;
-
-	i = -1;
 	if (ft_strequ(str[0], "cam:"))
 		cam_data(sdl, str);
 	else if (ft_strequ(str[0], "sphere:"))
@@ -65,60 +40,24 @@ void	split_parse(char **str, t_sdl *sdl)
 	else if (ft_strequ(str[0], "light:"))
 		light_data(sdl, str);
 	else if (ft_strequ(str[0], "ambient:"))
-	{
-		sdl->ambient = (double)(atoi(str[1])) / 100;
-		while (++i <= 1)
-			free(str[i]);
-		free(str);
-	}
+		ambient_data(sdl, str);
 }
 
-void	obj_counter(char *arg, t_sdl *sdl)
+void	ft_parse(char *arg, t_sdl *sdl)
 {
 	char	*line;
-	int 	fd;
-	int 	i;
-	int 	cam_is;
+	int		fd;
+	int		i;
 	char	**spl_res;
 
 	i = 0;
-	cam_is = 0;
-	line = NULL;
-	if ((fd = open(arg, O_RDONLY)) < 0)
-		ft_error("Can't open the file");
-	while ((i = get_next_line(fd, &line)) > 0)
-	{
-		spl_res = ft_strsplit(line, ' ');
-		ft_strdel(&line);
-		if (ft_strequ(spl_res[0], "sphere:") || ft_strequ(spl_res[0], "plane:") ||
-		 ft_strequ(spl_res[0], "cylinder:") || ft_strequ(spl_res[0], "cone:"))
-			sdl->obj_num++;
-		else if (ft_strequ(spl_res[0], "light:"))
-			sdl->light_num++;
-		else if (ft_strequ(spl_res[0], "cam:"))
-			cam_is++;
-		validation(spl_res);
-	}
-	ft_strdel(&line);
-	if (cam_is != 1)
-		ft_error("Have no camera");
-	close(fd);
-}
-
-void	ft_parse(char *arg, t_sdl *sdl, t_ray *ray)
-{
-	char	*line;
-	int 	fd;
-	int 	i;
-	char	**spl_res;
-
-	i = 0;
+	fd = 0;
 	line = NULL;
 	sdl->obj_num = 0;
 	sdl->light_num = 0;
 	sdl->obj_counter = 0;
 	sdl->light_counter = 0;
-	obj_counter(arg, sdl);
+	validation_init(arg, sdl, i, fd);
 	sdl->obj = ft_memalloc(sizeof(t_object) * sdl->obj_num);
 	sdl->light = ft_memalloc(sizeof(t_light) * sdl->light_num);
 	if ((fd = open(arg, O_RDONLY)) < 0)
@@ -130,7 +69,4 @@ void	ft_parse(char *arg, t_sdl *sdl, t_ray *ray)
 		ft_strdel(&line);
 	}
 	ft_strdel(&line);
-	ray->orig.x = sdl->cam.pos.x;
-	ray->orig.y = sdl->cam.pos.y;
-	ray->orig.z = sdl->cam.pos.z;
 }
