@@ -74,7 +74,7 @@ void	get_intensity(t_sdl *sdl, t_light *light, t_vec v, double s)
 	if (n_dot_l > EPS)
 		light->new_inten += inten * (n_dot_l / (vec_len(light->n) *
 					vec_len(l)));
-	if (s != -1)
+	if (s > 0)
 	{
 		r = vec_scale(light->n, 2);
 		r = vec_scale(r, vec_dot(light->n, l));

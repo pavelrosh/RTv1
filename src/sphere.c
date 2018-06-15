@@ -6,7 +6,7 @@
 /*   By: proshchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 14:54:04 by proshchy          #+#    #+#             */
-/*   Updated: 2018/06/07 16:46:16 by proshchy         ###   ########.fr       */
+/*   Updated: 2018/06/15 14:12:54 by proshchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ void	sphere_data(t_sdl *sdl, char **str)
 	OBJP.pos.y = (double)(atoi(str[2]));
 	OBJP.pos.z = (double)(atoi(str[3]));
 	OBJP.r = (double)(atoi(str[4])) / 10;
-	if (atoi(str[5]) < 0 || atoi(str[6]) < 0 || atoi(str[7]) < 0)
-		ft_error("Wrong input");
+	if (OBJP.r < 0.1 || atoi(str[5]) < 0 || atoi(str[6]) < 0
+		|| atoi(str[7]) < 0)
+		ft_error("Wrong input for sphere");
 	OBJP.col.rgb[0] = (unsigned char)(atoi(str[5]));
 	OBJP.col.rgb[1] = (unsigned char)(atoi(str[6]));
 	OBJP.col.rgb[2] = (unsigned char)(atoi(str[7]));

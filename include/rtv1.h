@@ -6,7 +6,7 @@
 /*   By: proshchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 13:32:09 by proshchy          #+#    #+#             */
-/*   Updated: 2018/06/08 16:09:15 by proshchy         ###   ########.fr       */
+/*   Updated: 2018/06/15 14:10:11 by proshchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,5 @@ t_vec				cone_normal_calc(t_ray *ray, t_object *obj);
 void				light(t_sdl *sdl, t_ray *ray);
 void				cam_data(t_sdl *sdl, char **str);
 void				light_data(t_sdl *sdl, char **str);
+int					val_2(char *str);
 #endif

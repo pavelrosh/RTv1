@@ -6,11 +6,29 @@
 /*   By: proshchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/11 13:49:52 by proshchy          #+#    #+#             */
-/*   Updated: 2018/06/07 17:40:29 by proshchy         ###   ########.fr       */
+/*   Updated: 2018/06/15 14:11:06 by proshchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/rtv1.h"
+
+int		val_2(char *str)
+{
+	int	i;
+
+	if (str[0] == '-' || str[0] == '+')
+		i = 1;
+	else
+		i = 0;
+	while (str[i])
+	{
+		if (ft_isdigit(str[i]) == 1)
+			i++;
+		else
+			ft_error("Input is not number");
+	}
+	return (1);
+}
 
 void	cam_data(t_sdl *sdl, char **str)
 {

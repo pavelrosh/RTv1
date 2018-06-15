@@ -6,7 +6,7 @@
 /*   By: proshchy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 19:21:06 by proshchy          #+#    #+#             */
-/*   Updated: 2018/06/07 17:56:13 by proshchy         ###   ########.fr       */
+/*   Updated: 2018/06/15 14:12:18 by proshchy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ void	cylinder_data(t_sdl *sdl, char **str)
 	OBJP.rot.x = (double)(atoi(str[5]));
 	OBJP.rot.y = (double)(atoi(str[6]));
 	OBJP.rot.z = (double)(atoi(str[7]));
-	if (atoi(str[8]) < 0 || atoi(str[9]) < 0 || atoi(str[10]) < 0)
-		ft_error("Wrong input");
+	if (OBJP.r < 0.1 || atoi(str[8]) < 0 || atoi(str[9]) < 0
+		|| atoi(str[10]) < 0)
+		ft_error("Wrong input for cylinder");
 	OBJP.col.rgb[0] = (unsigned char)(atoi(str[8]));
 	OBJP.col.rgb[1] = (unsigned char)(atoi(str[9]));
 	OBJP.col.rgb[2] = (unsigned char)(atoi(str[10]));

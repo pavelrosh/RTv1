@@ -19,7 +19,7 @@ void	val_1(char **str, int k)
 	i = 0;
 	while (++i <= k)
 		if (!str[i] || (atoi(str[i]) == 0 && str[i][0] != '0') ||
-				str[k + 1] != NULL)
+				str[k + 1] != NULL || !val_2(str[i]))
 			ft_error("Wrong input");
 	i = -1;
 	while (++i <= k)
@@ -101,5 +101,7 @@ void	validation_init(char *arg, t_sdl *sdl, int fd, int i)
 		ft_error("Have no camera");
 	if (sdl->light_num == 0)
 		ft_error("Have no light");
+	if (sdl->obj_num < 1)
+		ft_error("Have no objects");
 	close(fd);
 }
